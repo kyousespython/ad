@@ -1,3 +1,26 @@
+-- v1.0.0
+
+
+-- STORED
+--[[  local args = {
+                [1] = "Standard",
+                [2] = 1 -- 1 spin
+            }
+
+            game:GetService("ReplicatedStorage").Remotes.Summon:InvokeServer(unpack(args))
+
+            local args = {
+                [1] = "Standard",
+                [2] = 10 -- 2 spins
+            }
+
+            game:GetService("ReplicatedStorage").Remotes.Summon:InvokeServer(unpack(args))
+
+
+--]]
+
+
+-- UI
 local players = game:GetService("Players") 
 local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService") 
@@ -1935,3 +1958,49 @@ end
 local main = Library:Init{
 	name = "Kaos Hub"
 }
+
+local tab = main:CreateTab({
+    name = "Main"
+})
+local tab2 = main:CreateTab({
+	name = "WIP"
+})
+
+
+local toggle = Tab:Toggle({
+    title = "Auto Join Selected Map",
+    callback = function()
+        print("works")
+    end
+})
+
+-- -137.4, 11.2, -268.5
+
+-- Auto Farm
+
+--[[ local Chapter = nil
+local FriendsOnly = nil
+local Difficulty = nil 
+
+local targetPosition = Vector3.new(-137.4, 11.2, -268.5) -- Change these values to the desired coordinates
+
+local function teleportPlayer()
+    local player = game.Players.LocalPlayer
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+    end
+end
+
+teleportPlayer()
+
+local args = {
+    [1] = "WNGEdCtwxTcWeltaH",
+    [2] = {
+        ["Chapter"] = "FooshaVillage_Chapter1",
+        ["FriendsOnly"] = false,
+        ["Difficulty"] = "Normal"
+    }
+}
+
+game:GetService("ReplicatedStorage").Actions.Action:FireServer(unpack(args))
+--]]
