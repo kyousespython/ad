@@ -1,0 +1,1937 @@
+local players = game:GetService("Players") 
+local tweenService = game:GetService("TweenService")
+local runService = game:GetService("RunService") 
+local coreGui = game:GetService("CoreGui") 
+local uis = game:GetService("UserInputService") 
+local lp = players.LocalPlayer
+local mouse = lp:GetMouse()
+local viewport = workspace.CurrentCamera.ViewportSize
+
+
+local Library = {}
+
+
+function Library:validate(defaults, options)
+	for i, v in pairs(defaults) do 
+		if options[i] == nil then 
+			options[i] = v 
+		end
+	end
+	return options
+end
+
+
+local tweenInfo = TweenInfo.new(
+	.4, 
+	Enum.EasingStyle.Quad, 
+	Enum.EasingDirection.Out, 
+	0, 
+	false, 
+	0 
+)
+
+
+function Library:tween(object, goal, callback)
+	local tween = tweenService:Create(object, tweenInfo, goal)
+	tween.Completed:Connect(callback or function() end)
+	tween:Play()
+end
+
+
+function Library:Init(options)
+	options = Library:validate({
+		name = "Kaos Hub"
+	}, options or {})
+
+	local GUI = {
+		CurrentTab = nil
+	}
+
+
+	GUI["1"] = Instance.new("ScreenGui", runService:IsStudio() and players.LocalPlayer:WaitForChild("PlayerGui") or coreGui);
+	GUI["1"]["Name"] = [[AdminPanel]];
+	GUI["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+	GUI["1"]["IgnoreGuiInset"] = true 
+
+	-- StarterGui.AdminPanel.MainTab
+	GUI["54"] = Instance.new("Frame", GUI["1"]);
+	GUI["54"]["BorderSizePixel"] = 0;
+	GUI["54"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["54"]["Size"] = UDim2.new(0, 676, 0, 392);
+	GUI["54"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["54"]["Position"] = UDim2.new(0, 331, 0, 153);
+	GUI["54"]["Name"] = [[MainTab]];
+
+
+	-- StarterGui.AdminPanel.MainTab.UIAspectRatioConstraint
+	GUI["55"] = Instance.new("UIAspectRatioConstraint", GUI["54"]);
+	GUI["55"]["AspectRatio"] = 1.663265347480774;
+
+
+
+	-- StarterGui.AdminPanel.MainTab.Welcome
+	GUI["58"] = Instance.new("TextLabel", GUI["54"]);
+	GUI["58"]["TextWrapped"] = true;
+	GUI["58"]["BorderSizePixel"] = 0;
+	GUI["58"]["TextScaled"] = true;
+	GUI["58"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["58"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["58"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["58"]["TextTransparency"] = 0.20000000298023224;
+	GUI["58"]["TextSize"] = 14;
+	GUI["58"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["58"]["Size"] = UDim2.new(0, 222, 0, 19);
+	GUI["58"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["58"]["Text"] = [[Welcome,]];
+	GUI["58"]["Name"] = [[Welcome]];
+	GUI["58"]["Visible"] = false;
+	GUI["58"]["BackgroundTransparency"] = 1;
+	GUI["58"]["Position"] = UDim2.new(0.2070552110671997, 0, 0.057397957891225815, 0);
+
+
+
+	-- StarterGui.AdminPanel.MainTab.AdminNameLabel
+	GUI["59"] = Instance.new("TextLabel", GUI["54"]);
+	GUI["59"]["TextWrapped"] = true;
+	GUI["59"]["BorderSizePixel"] = 0;
+	GUI["59"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["59"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["59"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["59"]["TextSize"] = 30;
+	GUI["59"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["59"]["Size"] = UDim2.new(0, 388, 0, 30);
+	GUI["59"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["59"]["Text"] = [[]];
+	GUI["59"]["Name"] = [[AdminNameLabel]];
+	GUI["59"]["Visible"] = false;
+	GUI["59"]["BackgroundTransparency"] = 1;
+	GUI["59"]["Position"] = UDim2.new(0.2070552110671997, 0, 0.10586734861135483, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminNameLabel.LocalScript
+	GUI["5a"] = Instance.new("LocalScript", GUI["59"]);
+
+
+	-- StarterGui.AdminPanel.MainTab.AvatarImageLabel
+	GUI["5b"] = Instance.new("ImageLabel", GUI["54"]);
+	GUI["5b"]["BorderSizePixel"] = 0;
+	GUI["5b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["5b"]["Visible"] = false;
+	GUI["5b"]["Image"] = [[rbxassetid://15355811157]];
+	GUI["5b"]["Size"] = UDim2.new(0, 92, 0, 84);
+	GUI["5b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["5b"]["Name"] = [[AvatarImageLabel]];
+	GUI["5b"]["BackgroundTransparency"] = 1;
+	GUI["5b"]["Position"] = UDim2.new(0.038343559950590134, 0, 0.020408162847161293, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AvatarImageLabel.UICorner
+	GUI["5c"] = Instance.new("UICorner", GUI["5b"]);
+	GUI["5c"]["CornerRadius"] = UDim.new(1, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AvatarImageLabel.UIStroke
+	GUI["5d"] = Instance.new("UIStroke", GUI["5b"]);
+	GUI["5d"]["Thickness"] = 5;
+	GUI["5d"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AvatarImageLabel.LocalScript
+	GUI["5e"] = Instance.new("LocalScript", GUI["5b"]);
+
+
+	-- StarterGui.AdminPanel.MainTab.AdminList
+	GUI["5f"] = Instance.new("Frame", GUI["54"]);
+	GUI["5f"]["BorderSizePixel"] = 0;
+	GUI["5f"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["5f"]["Size"] = UDim2.new(0, 160, 0, 392);
+	GUI["5f"]["ClipsDescendants"] = true;
+	GUI["5f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["5f"]["Position"] = UDim2.new(0.7515337467193604, 0, 0, 0);
+	GUI["5f"]["Visible"] = false;
+	GUI["5f"]["Name"] = [[AdminList]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame
+	GUI["60"] = Instance.new("ScrollingFrame", GUI["5f"]);
+	GUI["60"]["Active"] = true;
+	GUI["60"]["BorderSizePixel"] = 0;
+	GUI["60"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["60"]["Size"] = UDim2.new(0, 160, 0, 344);
+	GUI["60"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["60"]["ScrollBarThickness"] = 5;
+	GUI["60"]["Position"] = UDim2.new(0, 0, 0, 41);
+	GUI["60"]["Name"] = [[AdminListFrame]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.UIAspectRatioConstraint
+	GUI["61"] = Instance.new("UIAspectRatioConstraint", GUI["60"]);
+	GUI["61"]["AspectRatio"] = 0.4651162922382355;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.UIListLayout
+	GUI["62"] = Instance.new("UIListLayout", GUI["60"]);
+	GUI["62"]["Padding"] = UDim.new(0, 2);
+	GUI["62"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout
+	GUI["63"] = Instance.new("Frame", GUI["60"]);
+	GUI["63"]["BorderSizePixel"] = 0;
+	GUI["63"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["63"]["BackgroundTransparency"] = 1;
+	GUI["63"]["Size"] = UDim2.new(0, 158, 0, 79);
+	GUI["63"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["63"]["Position"] = UDim2.new(-0.042398832738399506, 0, 0.1301020383834839, 0);
+	GUI["63"]["Name"] = [[AdminListLayout]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Line
+	GUI["64"] = Instance.new("Frame", GUI["63"]);
+	GUI["64"]["BorderSizePixel"] = 0;
+	GUI["64"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["64"]["BackgroundTransparency"] = 0.949999988079071;
+	GUI["64"]["Size"] = UDim2.new(0, 167, 0, -2);
+	GUI["64"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["64"]["Position"] = UDim2.new(-0.04374999925494194, 0, 0.12755101919174194, 0);
+	GUI["64"]["Name"] = [[Line]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel
+	GUI["65"] = Instance.new("ImageLabel", GUI["63"]);
+	GUI["65"]["BorderSizePixel"] = 0;
+	GUI["65"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["65"]["Image"] = [[rbxassetid://15355811157]];
+	GUI["65"]["Size"] = UDim2.new(0, 49, 0, 41);
+	GUI["65"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["65"]["BackgroundTransparency"] = 1;
+	GUI["65"]["Position"] = UDim2.new(-0.05659349635243416, 0, 0.33686384558677673, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel.UIStroke
+	GUI["66"] = Instance.new("UIStroke", GUI["65"]);
+	GUI["66"]["Thickness"] = 5;
+	GUI["66"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel.UICorner
+	GUI["67"] = Instance.new("UICorner", GUI["65"]);
+	GUI["67"]["CornerRadius"] = UDim.new(5, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.UIStroke
+	GUI["68"] = Instance.new("UIStroke", GUI["63"]);
+	GUI["68"]["Thickness"] = 5;
+	GUI["68"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.UICorner
+	GUI["69"] = Instance.new("UICorner", GUI["63"]);
+	GUI["69"]["CornerRadius"] = UDim.new(1, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Admin
+	GUI["6a"] = Instance.new("TextLabel", GUI["63"]);
+	GUI["6a"]["TextWrapped"] = true;
+	GUI["6a"]["BorderSizePixel"] = 0;
+	GUI["6a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["6a"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["6a"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["6a"]["TextSize"] = 17;
+	GUI["6a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["6a"]["Size"] = UDim2.new(0, 123, 0, 32);
+	GUI["6a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["6a"]["Text"] = [[Kyo]];
+	GUI["6a"]["Name"] = [[Admin]];
+	GUI["6a"]["BackgroundTransparency"] = 1;
+	GUI["6a"]["Position"] = UDim2.new(0.2915077805519104, 0, 0.326616495847702, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Tag
+	GUI["6b"] = Instance.new("TextLabel", GUI["63"]);
+	GUI["6b"]["TextWrapped"] = true;
+	GUI["6b"]["BorderSizePixel"] = 0;
+	GUI["6b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["6b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["6b"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["6b"]["TextSize"] = 10;
+	GUI["6b"]["TextColor3"] = Color3.fromRGB(145, 145, 145);
+	GUI["6b"]["Size"] = UDim2.new(0, 123, 0, 19);
+	GUI["6b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["6b"]["Text"] = [[Head Developer ]];
+	GUI["6b"]["Name"] = [[Tag]];
+	GUI["6b"]["BackgroundTransparency"] = 1;
+	GUI["6b"]["Position"] = UDim2.new(0.2915077805519104, 0, 0.6050975322723389, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout
+	GUI["6c"] = Instance.new("Frame", GUI["60"]);
+	GUI["6c"]["BorderSizePixel"] = 0;
+	GUI["6c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["6c"]["BackgroundTransparency"] = 1;
+	GUI["6c"]["Size"] = UDim2.new(0, 158, 0, 79);
+	GUI["6c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["6c"]["Position"] = UDim2.new(-0.042398832738399506, 0, 0.1301020383834839, 0);
+	GUI["6c"]["Name"] = [[AdminListLayout]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Line
+	GUI["6d"] = Instance.new("Frame", GUI["6c"]);
+	GUI["6d"]["BorderSizePixel"] = 0;
+	GUI["6d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["6d"]["BackgroundTransparency"] = 0.949999988079071;
+	GUI["6d"]["Size"] = UDim2.new(0, 167, 0, -2);
+	GUI["6d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["6d"]["Position"] = UDim2.new(-0.04374999925494194, 0, 0.12755101919174194, 0);
+	GUI["6d"]["Name"] = [[Line]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel
+	GUI["6e"] = Instance.new("ImageLabel", GUI["6c"]);
+	GUI["6e"]["BorderSizePixel"] = 0;
+	GUI["6e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["6e"]["Image"] = [[rbxassetid://15356073959]];
+	GUI["6e"]["Size"] = UDim2.new(0, 49, 0, 41);
+	GUI["6e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["6e"]["BackgroundTransparency"] = 1;
+	GUI["6e"]["Position"] = UDim2.new(-0.05659349635243416, 0, 0.33686384558677673, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel.UIStroke
+	GUI["6f"] = Instance.new("UIStroke", GUI["6e"]);
+	GUI["6f"]["Thickness"] = 5;
+	GUI["6f"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel.UICorner
+	GUI["70"] = Instance.new("UICorner", GUI["6e"]);
+	GUI["70"]["CornerRadius"] = UDim.new(5, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.UIStroke
+	GUI["71"] = Instance.new("UIStroke", GUI["6c"]);
+	GUI["71"]["Thickness"] = 5;
+	GUI["71"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.UICorner
+	GUI["72"] = Instance.new("UICorner", GUI["6c"]);
+	GUI["72"]["CornerRadius"] = UDim.new(1, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Admin
+	GUI["73"] = Instance.new("TextLabel", GUI["6c"]);
+	GUI["73"]["TextWrapped"] = true;
+	GUI["73"]["BorderSizePixel"] = 0;
+	GUI["73"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["73"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["73"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["73"]["TextSize"] = 17;
+	GUI["73"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["73"]["Size"] = UDim2.new(0, 123, 0, 32);
+	GUI["73"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["73"]["Text"] = [[Boredasss]];
+	GUI["73"]["Name"] = [[Admin]];
+	GUI["73"]["BackgroundTransparency"] = 1;
+	GUI["73"]["Position"] = UDim2.new(0.2915077805519104, 0, 0.326616495847702, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Tag
+	GUI["74"] = Instance.new("TextLabel", GUI["6c"]);
+	GUI["74"]["TextWrapped"] = true;
+	GUI["74"]["BorderSizePixel"] = 0;
+	GUI["74"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["74"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["74"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["74"]["TextSize"] = 10;
+	GUI["74"]["TextColor3"] = Color3.fromRGB(145, 145, 145);
+	GUI["74"]["Size"] = UDim2.new(0, 123, 0, 19);
+	GUI["74"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["74"]["Text"] = [[Useless / Black asf]];
+	GUI["74"]["Name"] = [[Tag]];
+	GUI["74"]["BackgroundTransparency"] = 1;
+	GUI["74"]["Position"] = UDim2.new(0.2915077805519104, 0, 0.6050975322723389, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout
+	GUI["75"] = Instance.new("Frame", GUI["60"]);
+	GUI["75"]["BorderSizePixel"] = 0;
+	GUI["75"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["75"]["BackgroundTransparency"] = 1;
+	GUI["75"]["Size"] = UDim2.new(0, 158, 0, 79);
+	GUI["75"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["75"]["Position"] = UDim2.new(-0.042398832738399506, 0, 0.1301020383834839, 0);
+	GUI["75"]["Name"] = [[AdminListLayout]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Line
+	GUI["76"] = Instance.new("Frame", GUI["75"]);
+	GUI["76"]["BorderSizePixel"] = 0;
+	GUI["76"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["76"]["BackgroundTransparency"] = 0.949999988079071;
+	GUI["76"]["Size"] = UDim2.new(0, 167, 0, -2);
+	GUI["76"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["76"]["Position"] = UDim2.new(-0.04374999925494194, 0, 0.12755101919174194, 0);
+	GUI["76"]["Name"] = [[Line]];
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel
+	GUI["77"] = Instance.new("ImageLabel", GUI["75"]);
+	GUI["77"]["BorderSizePixel"] = 0;
+	GUI["77"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["77"]["Image"] = [[rbxassetid://15356082208]];
+	GUI["77"]["Size"] = UDim2.new(0, 49, 0, 41);
+	GUI["77"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["77"]["BackgroundTransparency"] = 1;
+	GUI["77"]["Position"] = UDim2.new(-0.05659349635243416, 0, 0.33686384558677673, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel.UIStroke
+	GUI["78"] = Instance.new("UIStroke", GUI["77"]);
+	GUI["78"]["Thickness"] = 5;
+	GUI["78"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.ImageLabel.UICorner
+	GUI["79"] = Instance.new("UICorner", GUI["77"]);
+	GUI["79"]["CornerRadius"] = UDim.new(5, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.UIStroke
+	GUI["7a"] = Instance.new("UIStroke", GUI["75"]);
+	GUI["7a"]["Thickness"] = 5;
+	GUI["7a"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.UICorner
+	GUI["7b"] = Instance.new("UICorner", GUI["75"]);
+	GUI["7b"]["CornerRadius"] = UDim.new(1, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Admin
+	GUI["7c"] = Instance.new("TextLabel", GUI["75"]);
+	GUI["7c"]["TextWrapped"] = true;
+	GUI["7c"]["BorderSizePixel"] = 0;
+	GUI["7c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["7c"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["7c"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["7c"]["TextSize"] = 17;
+	GUI["7c"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["7c"]["Size"] = UDim2.new(0, 123, 0, 32);
+	GUI["7c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["7c"]["Text"] = [[Ediz]];
+	GUI["7c"]["Name"] = [[Admin]];
+	GUI["7c"]["BackgroundTransparency"] = 1;
+	GUI["7c"]["Position"] = UDim2.new(0.2915077805519104, 0, 0.326616495847702, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.AdminListFrame.AdminListLayout.Tag
+	GUI["7d"] = Instance.new("TextLabel", GUI["75"]);
+	GUI["7d"]["TextWrapped"] = true;
+	GUI["7d"]["BorderSizePixel"] = 0;
+	GUI["7d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["7d"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["7d"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["7d"]["TextSize"] = 10;
+	GUI["7d"]["TextColor3"] = Color3.fromRGB(145, 145, 145);
+	GUI["7d"]["Size"] = UDim2.new(0, 123, 0, 19);
+	GUI["7d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["7d"]["Text"] = [[Developer ]];
+	GUI["7d"]["Name"] = [[Tag]];
+	GUI["7d"]["BackgroundTransparency"] = 1;
+	GUI["7d"]["Position"] = UDim2.new(0.2915077805519104, 0, 0.6050975322723389, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.Fade
+	GUI["7e"] = Instance.new("ImageLabel", GUI["5f"]);
+	GUI["7e"]["BorderSizePixel"] = 0;
+	GUI["7e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["7e"]["ImageColor3"] = Color3.fromRGB(4, 4, 4);
+	GUI["7e"]["ImageTransparency"] = 0.5;
+	GUI["7e"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+	GUI["7e"]["Image"] = [[rbxassetid://14840801383]];
+	GUI["7e"]["Size"] = UDim2.new(1.0716321468353271, 0, 0.09932120144367218, 0);
+	GUI["7e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["7e"]["Name"] = [[Fade]];
+	GUI["7e"]["BackgroundTransparency"] = 1;
+	GUI["7e"]["Position"] = UDim2.new(0.4795660972595215, 0, 0.9503393173217773, 0);
+
+	-- StarterGui.AdminPanel.MainTab.AdminList.TextLabel
+	GUI["7f"] = Instance.new("TextLabel", GUI["5f"]);
+	GUI["7f"]["TextWrapped"] = true;
+	GUI["7f"]["BorderSizePixel"] = 0;
+	GUI["7f"]["RichText"] = true;
+	GUI["7f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["7f"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["7f"]["TextSize"] = 25;
+	GUI["7f"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["7f"]["Size"] = UDim2.new(0, 160, 0, 33);
+	GUI["7f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["7f"]["Text"] = [[Mentions]];
+	GUI["7f"]["BackgroundTransparency"] = 1;
+	GUI["7f"]["Position"] = UDim2.new(-0.043202973902225494, 0, 0.020408162847161293, 0);
+
+	-- StarterGui.AdminPanel.MainTab.Line
+	GUI["80"] = Instance.new("Frame", GUI["54"]);
+	GUI["80"]["BorderSizePixel"] = 0;
+	GUI["80"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["80"]["BackgroundTransparency"] = 0.949999988079071;
+	GUI["80"]["Size"] = UDim2.new(0, 2, 0, 392);
+	GUI["80"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["80"]["Position"] = UDim2.new(0.7380616068840027, 0, 0, 0);
+	GUI["80"]["Name"] = [[Line]];
+
+	-- StarterGui.AdminPanel.MainTab.Line
+	GUI["81"] = Instance.new("Frame", GUI["54"]);
+	GUI["81"]["BorderSizePixel"] = 0;
+	GUI["81"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["81"]["BackgroundTransparency"] = 0.949999988079071;
+	GUI["81"]["Size"] = UDim2.new(0.734000027179718, 0, 0.004999999888241291, 0);
+	GUI["81"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["81"]["Position"] = UDim2.new(0.005533791612833738, 0, 0.8847007751464844, 0);
+	GUI["81"]["Name"] = [[Line]];
+
+	-- StarterGui.AdminPanel.MainTab.Announcement
+	GUI["82"] = Instance.new("Frame", GUI["54"]);
+	GUI["82"]["BorderSizePixel"] = 0;
+	GUI["82"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["82"]["BackgroundTransparency"] = 1;
+	GUI["82"]["Size"] = UDim2.new(0, 481, 0, 189);
+	GUI["82"]["ClipsDescendants"] = true;
+	GUI["82"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["82"]["Position"] = UDim2.new(0.002466307021677494, 0, 0.28316327929496765, 0);
+	GUI["82"]["Name"] = [[Announcement]];
+
+	-- StarterGui.AdminPanel.MainTab.Announcement.TextLabel
+	GUI["83"] = Instance.new("TextLabel", GUI["82"]);
+	GUI["83"]["TextWrapped"] = true;
+	GUI["83"]["BorderSizePixel"] = 0;
+	GUI["83"]["TextYAlignment"] = Enum.TextYAlignment.Top;
+	GUI["83"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["83"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+	GUI["83"]["FontFace"] = Font.new([[rbxasset://fonts/families/Inconsolata.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+	GUI["83"]["TextSize"] = 30;
+	GUI["83"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["83"]["Size"] = UDim2.new(0, 481, 0, 189);
+	GUI["83"]["ClipsDescendants"] = true;
+	GUI["83"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["83"]["Text"] = [[Changelog                                                            [+] UI Released]];
+	GUI["83"]["Visible"] = false;
+	GUI["83"]["BackgroundTransparency"] = 1;
+
+	-- StarterGui.AdminPanel.MainTab.Announcement.TextLabel.UIGradient
+	GUI["84"] = Instance.new("UIGradient", GUI["83"]);
+	GUI["84"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(255, 255, 255)),ColorSequenceKeypoint.new(0.394, Color3.fromRGB(255, 252, 136)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(255, 248, 0))};
+
+	-- StarterGui.AdminPanel.MainTab.Bottom
+	GUI["85"] = Instance.new("Frame", GUI["54"]);
+	GUI["85"]["BorderSizePixel"] = 0;
+	GUI["85"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["85"]["BackgroundTransparency"] = 1;
+	GUI["85"]["Size"] = UDim2.new(0, 478, 0, 89);
+	GUI["85"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["85"]["Position"] = UDim2.new(0.002466307021677494, 0, 0.7723538279533386, 0);
+	GUI["85"]["Name"] = [[Bottom]];
+
+	-- StarterGui.AdminPanel.MainTab.Bottom.Discord
+	GUI["86"] = Instance.new("TextLabel", GUI["85"]);
+	GUI["86"]["BorderSizePixel"] = 0;
+	GUI["86"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["86"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+	GUI["86"]["TextSize"] = 14;
+	GUI["86"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["86"]["Size"] = UDim2.new(0, 174, 0, 27);
+	GUI["86"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["86"]["Text"] = [[discord.gg/kaoshub]];
+	GUI["86"]["Name"] = [[Discord]];
+	GUI["86"]["BackgroundTransparency"] = 1;
+	GUI["86"]["Position"] = UDim2.new(0.02092050202190876, 0, 0.6966292262077332, 0);
+
+	-- StarterGui.AdminPanel.MainTab.Bottom.Discord.UIStroke
+	GUI["87"] = Instance.new("UIStroke", GUI["86"]);
+	GUI["87"]["Color"] = Color3.fromRGB(73, 73, 73);
+
+	-- StarterGui.AdminPanel.MainTab.Bottom.Discord.ImageLabel
+	GUI["88"] = Instance.new("ImageLabel", GUI["86"]);
+	GUI["88"]["BorderSizePixel"] = 0;
+	GUI["88"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+	GUI["88"]["Image"] = [[rbxassetid://15488679417]];
+	GUI["88"]["Size"] = UDim2.new(0, 21, 0, 17);
+	GUI["88"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["88"]["BackgroundTransparency"] = 1;
+	GUI["88"]["Position"] = UDim2.new(-0.04372432455420494, 0, 0.18518517911434174, 0);
+
+
+
+	-- StarterGui.AdminPanel.MainTab.DropShadowHolder
+	GUI["56"] = Instance.new("Frame", GUI["54"]);
+	GUI["56"]["ZIndex"] = 0;
+	GUI["56"]["BorderSizePixel"] = 0;
+	GUI["56"]["BackgroundTransparency"] = 1;
+	GUI["56"]["Size"] = UDim2.new(1, 0, 1, 0);
+	GUI["56"]["Name"] = [[DropShadowHolder]];
+
+	-- StarterGui.AdminPanel.MainTab.DropShadowHolder.DropShadow
+	GUI["57"] = Instance.new("ImageLabel", GUI["56"]);
+	GUI["57"]["ZIndex"] = 0;
+	GUI["57"]["BorderSizePixel"] = 0;
+	GUI["57"]["SliceCenter"] = Rect.new(49, 49, 450, 450);
+	GUI["57"]["ScaleType"] = Enum.ScaleType.Slice;
+	GUI["57"]["ImageColor3"] = Color3.fromRGB(0, 0, 0);
+	GUI["57"]["ImageTransparency"] = 0.5;
+	GUI["57"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+	GUI["57"]["Image"] = [[rbxassetid://6015897843]];
+	GUI["57"]["Size"] = UDim2.new(1, 47, 1, 47);
+	GUI["57"]["Name"] = [[DropShadow]];
+	GUI["57"]["BackgroundTransparency"] = 1;
+	GUI["57"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+
+
+
+
+	-- /////////////////////////////////////////////////////////////////////////
+
+
+	-- Navigation Frame
+	do
+
+		-- StarterGui.AdminPanel.Navigation
+		GUI["3d"] = Instance.new("Frame", GUI["1"]);
+		GUI["3d"]["BorderSizePixel"] = 0;
+		GUI["3d"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["3d"]["Size"] = UDim2.new(0, 652, 0, 40);
+		GUI["3d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["3d"]["Position"] = UDim2.new(0, 331, 0, 109);
+		GUI["3d"]["Name"] = [[Navigation]];
+
+		-- StarterGui.AdminPanel.Navigation.Layout
+		GUI["3e"] = Instance.new("Frame", GUI["3d"]);
+		GUI["3e"]["BorderSizePixel"] = 0;
+		GUI["3e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI["3e"]["BackgroundTransparency"] = 1;
+		GUI["3e"]["Size"] = UDim2.new(0, 439, 0, 23);
+		GUI["3e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["3e"]["Position"] = UDim2.new(0.196174755692482, 0, 0.1750003844499588, 0);
+		GUI["3e"]["Name"] = [[Layout]];
+
+		-- StarterGui.AdminPanel.Navigation.Layout.UIListLayout
+		GUI["3f"] = Instance.new("UIListLayout", GUI["3e"]);
+		GUI["3f"]["VerticalAlignment"] = Enum.VerticalAlignment.Center;
+		GUI["3f"]["FillDirection"] = Enum.FillDirection.Horizontal;
+		GUI["3f"]["Padding"] = UDim.new(0.029999999329447746, 0);
+		GUI["3f"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+
+
+		-- StarterGui.AdminPanel.Navigation.Layout.UIGridLayout
+		GUI["45"] = Instance.new("UIGridLayout", GUI["3e"]);
+		GUI["45"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+
+
+		-- StarterGui.AdminPanel.Navigation.Layout.UIPadding
+		GUI["49"] = Instance.new("UIPadding", GUI["3e"]);
+		GUI["49"]["PaddingTop"] = UDim.new(0.009999999776482582, 0);
+		GUI["49"]["PaddingRight"] = UDim.new(0.10000000149011612, 0);
+		GUI["49"]["PaddingBottom"] = UDim.new(0.009999999776482582, 0);
+		GUI["49"]["PaddingLeft"] = UDim.new(0.009999999776482582, 0);
+
+		-- StarterGui.AdminPanel.Navigation.Title
+		GUI["4a"] = Instance.new("TextLabel", GUI["3d"]);
+		GUI["4a"]["ZIndex"] = 0;
+		GUI["4a"]["BorderSizePixel"] = 0;
+		GUI["4a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI["4a"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+		GUI["4a"]["TextSize"] = 19;
+		GUI["4a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI["4a"]["Size"] = UDim2.new(0, 102, 0, 40);
+		GUI["4a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["4a"]["Text"] = options["name"];
+		GUI["4a"]["Name"] = options["name"];
+		GUI["4a"]["BackgroundTransparency"] = 1;
+		GUI["4a"]["Position"] = UDim2.new(0.0011016284115612507, 0, 0, 0);
+
+		-- StarterGui.AdminPanel.Navigation.Title.UIStroke
+		GUI["4b"] = Instance.new("UIStroke", GUI["4a"]);
+
+
+		-- StarterGui.AdminPanel.Navigation.Title.LocalScript
+		GUI["4c"] = Instance.new("LocalScript", GUI["4a"]);
+
+
+		-- StarterGui.AdminPanel.Navigation.Title.LocalScript.speed
+		GUI["4d"] = Instance.new("NumberValue", GUI["4c"]);
+		GUI["4d"]["Value"] = 0.01;
+		GUI["4d"]["Name"] = [[speed]];
+
+		-- StarterGui.AdminPanel.Navigation.Title.UIGradient
+		GUI["4e"] = Instance.new("UIGradient", GUI["4a"]);
+
+
+		-- StarterGui.AdminPanel.Navigation.closeButton
+		GUI["4f"] = Instance.new("ImageButton", GUI["3d"]);
+		GUI["4f"]["Active"] = false;
+		GUI["4f"]["BorderSizePixel"] = 0;
+		GUI["4f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI["4f"]["Selectable"] = false;
+		GUI["4f"]["Image"] = [[rbxassetid://7072725342]];
+		GUI["4f"]["Size"] = UDim2.new(0, 22, 0, 21);
+		GUI["4f"]["Name"] = [[closeButton]];
+		GUI["4f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["4f"]["Position"] = UDim2.new(0.9631904363632202, 0, 0.22499999403953552, 0);
+		GUI["4f"]["BackgroundTransparency"] = 1;
+
+		-- StarterGui.AdminPanel.Navigation.minimizeButton
+		GUI["50"] = Instance.new("ImageButton", GUI["3d"]);
+		GUI["50"]["Active"] = false;
+		GUI["50"]["BorderSizePixel"] = 0;
+		GUI["50"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI["50"]["Selectable"] = false;
+		GUI["50"]["Image"] = [[rbxassetid://7072719338]];
+		GUI["50"]["Size"] = UDim2.new(0, 22, 0, 21);
+		GUI["50"]["Name"] = [[minimizeButton]];
+		GUI["50"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["50"]["Position"] = UDim2.new(0.929448127746582, 0, 0.22499999403953552, 0);
+		GUI["50"]["BackgroundTransparency"] = 1;
+
+		-- StarterGui.AdminPanel.Navigation.DropShadowHolder
+		GUI["51"] = Instance.new("Frame", GUI["3d"]);
+		GUI["51"]["ZIndex"] = 0;
+		GUI["51"]["BorderSizePixel"] = 0;
+		GUI["51"]["BackgroundTransparency"] = 1;
+		GUI["51"]["Size"] = UDim2.new(1, 0, 1, 0);
+		GUI["51"]["Name"] = [[DropShadowHolder]];
+
+		-- StarterGui.AdminPanel.Navigation.DropShadowHolder.DropShadow
+		GUI["52"] = Instance.new("ImageLabel", GUI["51"]);
+		GUI["52"]["ZIndex"] = 0;
+		GUI["52"]["BorderSizePixel"] = 0;
+		GUI["52"]["SliceCenter"] = Rect.new(49, 49, 450, 450);
+		GUI["52"]["ScaleType"] = Enum.ScaleType.Slice;
+		GUI["52"]["ImageColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI["52"]["ImageTransparency"] = 1;
+		GUI["52"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+		GUI["52"]["Image"] = [[rbxassetid://6015897843]];
+		GUI["52"]["Size"] = UDim2.new(1, 47, 1, 47);
+		GUI["52"]["Name"] = [[DropShadow]];
+		GUI["52"]["BackgroundTransparency"] = 1;
+		GUI["52"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+
+
+
+
+	end
+
+
+	function GUI:CreateTab(options)
+		options = Library:validate({
+			name = "Tab",
+			icon = "rbxassetid://6031280882"
+		}, options or {})
+
+		local Tab = {
+			Hover = false,
+			Active = false
+		}
+
+
+		Tab["40"] = Instance.new("TextLabel", GUI["3e"]);
+		Tab["40"]["BorderSizePixel"] = 0;
+		Tab["40"]["TextXAlignment"] = Enum.TextXAlignment.Center;
+		Tab["40"]["BackgroundColor3"] = Color3.fromRGB(206, 192, 0);
+		Tab["40"]["TextSize"] = 15;
+		Tab["40"]["TextColor3"] = Color3.fromRGB(190, 190, 190);
+		Tab["40"]["Size"] = UDim2.new(0, 96, 0, 24);
+		Tab["40"]["Text"] = options.name
+		Tab["40"]["Name"] = [[TabViewed]];
+		Tab["40"]["Font"] = Enum.Font.Ubuntu;
+		Tab["40"]["BackgroundTransparency"] = 1;
+		
+		
+
+		-- StarterGui.AdminPanel.Navigation.Layout.TabViewed.icon
+		Tab["41"] = Instance.new("ImageLabel", Tab["40"]);
+		Tab["41"]["BorderSizePixel"] = 0;
+		Tab["41"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		Tab["41"]["Image"] = options.icon;
+		Tab["41"]["Size"] = UDim2.new(0, 15, 0, 17);
+		Tab["41"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		Tab["41"]["Name"] = [[icon]];
+		Tab["41"]["BackgroundTransparency"] = 1;
+		Tab["41"]["Position"] = UDim2.new(0.07726255804300308, 0, 0.1666666716337204, 0);
+		
+		
+
+		-- StarterGui.AdminPanel.Navigation.Layout.TabViewed.UICorner
+		Tab["42"] = Instance.new("UICorner", Tab["40"]);
+		Tab["42"]["CornerRadius"] = UDim.new(0, 3);
+
+		-- StarterGui.AdminPanel.Navigation.Layout.TabViewed.UIStroke
+		Tab["43"] = Instance.new("UIStroke", Tab["40"]);
+		Tab["43"]["Color"] = Color3.fromRGB(255, 255, 0);
+		Tab["43"]["Thickness"] = 0.10000000149011612;
+		
+		-- StarterGui.AdminPanel.MainTab.ContentContainer
+		Tab["89"] = Instance.new("Frame", GUI["54"]);
+		Tab["89"]["BorderSizePixel"] = 0;
+		Tab["89"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		Tab["89"]["BackgroundTransparency"] = 1;
+		Tab["89"]["Size"] = UDim2.new(0, 482, 0, 346);
+		Tab["89"]["ClipsDescendants"] = true;
+		Tab["89"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		Tab["89"]["Position"] = UDim2.new(0.0010905821109190583, 0, 0, 0);
+		Tab["89"]["Name"] = [[ContentContainer]];
+		
+		-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff
+		Tab["8a"] = Instance.new("ScrollingFrame", Tab["89"]);
+		Tab["8a"]["BorderSizePixel"] = 0;
+		Tab["8a"]["BackgroundColor3"] = Color3.fromRGB(255, 239, 0);
+		Tab["8a"]["BackgroundTransparency"] = 1;
+		Tab["8a"]["Size"] = UDim2.new(0, 480, 0, 345);
+		Tab["8a"]["ScrollBarImageColor3"] = Color3.fromRGB(252, 255, 0);
+		Tab["8a"]["Selectable"] = false;
+		Tab["8a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		Tab["8a"]["ScrollBarThickness"] = 3;
+		Tab["8a"]["Position"] = UDim2.new(-0.0014752272982150316, 0, 0.03179190680384636, 0);
+		Tab["8a"]["Name"] = [[MainStuff]];
+		Tab["8a"]["SelectionGroup"] = false;
+
+		-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.UIPadding
+		Tab["92"] = Instance.new("UIPadding", Tab["8a"]);
+		Tab["92"]["PaddingTop"] = UDim.new(0, 1);
+		Tab["92"]["PaddingRight"] = UDim.new(0, 1);
+		Tab["92"]["PaddingBottom"] = UDim.new(0, 1);
+		Tab["92"]["PaddingLeft"] = UDim.new(0, 1);
+
+		-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.UIListLayout
+		Tab["93"] = Instance.new("UIListLayout", Tab["8a"]);
+		Tab["93"]["HorizontalAlignment"] = Enum.HorizontalAlignment.Center;
+		Tab["93"]["Padding"] = UDim.new(0, 9);
+		Tab["93"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+
+		
+		function Tab:Activate()
+			if not Tab.Active then
+				if GUI.CurrentTab ~= nil then
+					GUI.CurrentTab:Deactivate()
+				end
+				
+				Tab.Active = true
+				Library:tween(Tab["40"], {BackgroundTransparency = .8})
+				Library:tween(Tab["40"], {TextColor3 = Color3.fromRGB(255, 255, 255)})
+				Library:tween(Tab["41"], {ImageColor3 = Color3.fromRGB(255, 255, 255)})
+				Tab["8a"].Visible = true
+				
+				GUI.CurrentTab = Tab
+			end
+		end
+		
+		function Tab:Deactivate()
+			if Tab.Active then
+				Tab.Active = false
+				Tab.Hover = false
+				Library:tween(Tab["40"], {TextColor3 = Color3.fromRGB(200, 200, 200)})
+				Library:tween(Tab["41"], {ImageColor3 = Color3.fromRGB(200, 200, 200)})
+				Library:tween(Tab["40"], {BackgroundTransparency = 1})
+				Tab["8a"].Visible = false
+			end
+		end
+		
+		Tab["40"].MouseEnter:Connect(function()
+			Tab.Hover = true 
+
+			if not Tab.Active then
+				Library:tween(Tab["40"], {TextColor3 = Color3.fromRGB(255, 255, 255)})
+				Library:tween(Tab["41"], {ImageColor3 = Color3.fromRGB(255, 255, 255)})
+			end
+		end)
+
+		Tab["40"].MouseLeave:Connect(function()
+			Tab.Hover = false 
+
+
+			if not Tab.Active then
+				Library:tween(Tab["40"], {TextColor3 = Color3.fromRGB(200, 200, 200)})
+				Library:tween(Tab["41"], {ImageColor3 = Color3.fromRGB(200, 200, 200)})
+			end
+		end)
+
+		uis.InputBegan:Connect(function(input, gpe)
+			if gpe then return end
+
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+				if Tab.Hover then
+					Tab:Activate()
+				end
+			end
+		end)
+		
+		if GUI.CurrentTab == nil then 
+		Tab:Activate()
+		end
+
+		function Tab:CreateButton(options)
+			options = Library:validate({
+				name = "Button",
+				callback = function() end
+			}, options or {})
+
+			local Button = {
+				Hover = false, 
+				MouseDown = false
+			}
+
+			-- Render 
+			do
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button
+				Button["8b"] = Instance.new("Frame", Tab["8a"]);
+				Button["8b"]["BorderSizePixel"] = 0;
+				Button["8b"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Button["8b"]["Size"] = UDim2.new(0, 455, 0, 32);
+				Button["8b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Button["8b"]["Position"] = UDim2.new(0.01886792480945587, 0, 0.028248587623238564, 0);
+				Button["8b"]["Name"] = [[Button]];
+				Button["8b"]["Visible"] = true
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button.UIStroke
+				Button["8c"] = Instance.new("UIStroke", Button["8b"]);
+				Button["8c"]["Color"] = Color3.fromRGB(255, 235, 0);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button.UIStroke.UIGradient
+				Button["8d"] = Instance.new("UIGradient", Button["8c"]);
+				Button["8d"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(252, 255, 0)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(250, 255, 180))};
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button.UICorner
+				Button["8e"] = Instance.new("UICorner", Button["8b"]);
+				Button["8e"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button.TextLabel
+				Button["8f"] = Instance.new("TextLabel", Button["8b"]);
+				Button["8f"]["TextWrapped"] = true;
+				Button["8f"]["BorderSizePixel"] = 0;
+				Button["8f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Button["8f"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Button["8f"]["TextSize"] = 17;
+				Button["8f"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Button["8f"]["Size"] = UDim2.new(1, 0, 1, 0);
+				Button["8f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Button["8f"]["Text"] = options.name;
+				Button["8f"]["BackgroundTransparency"] = 1;
+
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button.UIPadding
+				Button["90"] = Instance.new("UIPadding", Button["8b"]);
+				Button["90"]["PaddingTop"] = UDim.new(0, 6);
+				Button["90"]["PaddingRight"] = UDim.new(0, 6);
+				Button["90"]["PaddingBottom"] = UDim.new(0, 6);
+				Button["90"]["PaddingLeft"] = UDim.new(0, 6);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Button.Line
+				Button["91"] = Instance.new("Frame", Button["8b"]);
+				Button["91"]["BorderSizePixel"] = 0;
+				Button["91"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Button["91"]["BackgroundTransparency"] = 0.949999988079071;
+				Button["91"]["Size"] = UDim2.new(0, 480, 0, -2);
+				Button["91"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Button["91"]["Position"] = UDim2.new(-0.04377667233347893, 0, 1.5718973875045776, 0);
+				Button["91"]["Name"] = [[Line]];
+
+
+			end
+
+			-- Methods 
+			function Button:SetText(text)
+				Button["8f"].Text = text
+				options.name = text
+			end
+
+			function Button:SetCallback(fn)
+				options.callback = fn
+			end
+			-- Logic 
+			do
+				Button["8b"].MouseEnter:Connect(function()
+					Button.Hover = true 
+
+					Library:tween(Button["8c"], {Color = Color3.fromRGB(252, 255, 230)})
+				end)
+
+
+				Button["8b"].MouseLeave:Connect(function()
+					Button.Hover = false 
+
+					if not Button.MouseDown then 
+						Library:tween(Button["8c"], {Color = Color3.fromRGB(255,255,0)})
+					end
+				end)
+
+				uis.InputBegan:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 and Button.Hover then 
+						Button.MouseDown = true
+						Library:tween(Button["8b"], {BackgroundColor3 = Color3.fromRGB(43, 43, 43)})
+						Library:tween(Button["8c"], {Color = Color3.fromRGB(255, 255, 255)})
+						options.callback()
+					end
+				end)
+
+				uis.InputEnded:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+						Button.MouseDown = false
+						if Button.Hover then
+							Library:tween(Button["8b"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+							Library:tween(Button["8c"], {Color = Color3.fromRGB(252, 255, 230)})
+						else 
+							Library:tween(Button["8b"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+							Library:tween(Button["8c"], {Color = Color3.fromRGB(255, 255, 0)})
+						end
+
+					end
+				end)
+			end
+
+			return Button
+		end
+
+		function Tab:Warning(options)
+			options = Library:validate({
+				message = "Preview Warning"
+			}, options or {})
+
+			local Warning = {}
+
+			-- Render 
+
+			do
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Warning
+				Warning["94"] = Instance.new("Frame", Tab["8a"]);
+				Warning["94"]["BorderSizePixel"] = 0;
+				Warning["94"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Warning["94"]["Size"] = UDim2.new(0, 455, 0, 32);
+				Warning["94"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Warning["94"]["Position"] = UDim2.new(0.01886792480945587, 0, 0.028248587623238564, 0);
+				Warning["94"]["Name"] = [[Warning]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Warning.UICorner
+				Warning["95"] = Instance.new("UICorner", Warning["94"]);
+				Warning["95"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Warning.WarningText
+				Warning["96"] = Instance.new("TextLabel", Warning["94"]);
+				Warning["96"]["TextWrapped"] = true;
+				Warning["96"]["BorderSizePixel"] = 0;
+				Warning["96"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Warning["96"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Warning["96"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Warning["96"]["TextSize"] = 17;
+				Warning["96"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Warning["96"]["Size"] = UDim2.new(0.939, 0, 1.6, 0);
+				Warning["96"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Warning["96"]["Text"] = options.message;
+				Warning["96"]["Name"] = [[WarningText]];
+				Warning["96"]["BackgroundTransparency"] = 1;
+				Warning["96"]["Position"] = UDim2.new(0.06094808131456375, 0, 0, 0);
+				Warning["96"]["TextWrapped"] = true
+				Warning["96"]["TextYAlignment"] = Enum.TextYAlignment.Top
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Warning.UIPadding
+				Warning["97"] = Instance.new("UIPadding", Warning["94"]);
+				Warning["97"]["PaddingTop"] = UDim.new(0, 6);
+				Warning["97"]["PaddingRight"] = UDim.new(0, 6);
+				Warning["97"]["PaddingBottom"] = UDim.new(0, 6);
+				Warning["97"]["PaddingLeft"] = UDim.new(0, 6);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Warning.Line
+				Warning["98"] = Instance.new("Frame", Warning["94"]);
+				Warning["98"]["BorderSizePixel"] = 0;
+				Warning["98"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Warning["98"]["BackgroundTransparency"] = 0.949999988079071;
+				Warning["98"]["Size"] = UDim2.new(0, 480, 0, -2);
+				Warning["98"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Warning["98"]["Position"] = UDim2.new(-0.04377667233347893, 0, 1.5718973875045776, 0);
+				Warning["98"]["Name"] = [[Line]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Warning.WarningIcon
+				Warning["99"] = Instance.new("ImageLabel", Warning["94"]);
+				Warning["99"]["BorderSizePixel"] = 0;
+				Warning["99"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Warning["99"]["ImageColor3"] = Color3.fromRGB(255, 0, 0);
+				Warning["99"]["Image"] = [[http://www.roblox.com/asset/?id=6031071053]];
+				Warning["99"]["Size"] = UDim2.new(0, 21, 0, 20);
+				Warning["99"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Warning["99"]["Name"] = [[WarningIcon]];
+				Warning["99"]["BackgroundTransparency"] = 1;
+
+
+			end
+
+			-- Methods 
+			function Warning:SetText(text)
+				options.message = text
+				Warning:_update()
+			end
+
+			function Warning:_update()
+				Warning["96"].Text = options.message
+
+
+				Warning["96"].Size = UDim2.new(Warning["96"].Size.X.Scale, Warning["96"].Size.X.Offset, 0, math.huge)
+				Warning["96"].Size = UDim2.new(Warning["96"].Size.X.Scale, Warning["96"].Size.X.Offset, 0, Warning["96"].TextBounds.Y)
+				Warning["94"].Size = UDim2.new(Warning["94"].Size.X.Scale, Warning["94"].Size.X.Offset, 0, Warning["96"].TextBounds.Y + 20)
+				-- Library:tween(Warning["94"], {Size = UDim2.new(Warning["94"].Size.X.Scale, Warning["94"].Size.X.Offset, 0, Warning["96"].TextBounds.Y)})
+			end
+
+			Warning:_update()
+			local warningparenting = Warning["94"]
+			
+			warningparenting.Parent = GUI["8a"]
+
+			return Warning 
+		end
+		--//////////////////////////////////////////////////////////////////////////////////////// END OF WARNING 
+
+
+		function Tab:Label(options)
+			options = Library:validate({
+				message = "Preview Label"
+			}, options or {})
+
+			local Label = {}
+
+			-- Render OF LABEL
+			do
+
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Label
+				Label["9a"] = Instance.new("Frame", Tab["8a"]);
+				Label["9a"]["BorderSizePixel"] = 0;
+				Label["9a"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Label["9a"]["Size"] = UDim2.new(0, 455, 0, 32);
+				Label["9a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Label["9a"]["Position"] = UDim2.new(0.01886792480945587, 0, 0.028248587623238564, 0);
+				Label["9a"]["Name"] = [[Label]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Label.UICorner
+				Label["9b"] = Instance.new("UICorner", Label["9a"]);
+				Label["9b"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Label.LabelText
+				Label["9c"] = Instance.new("TextLabel", Label["9a"]);
+				Label["9c"]["TextWrapped"] = true;
+				Label["9c"]["BorderSizePixel"] = 0;
+				Label["9c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Label["9c"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Label["9c"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Label["9c"]["TextSize"] = 17;
+				Label["9c"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Label["9c"]["Size"] = UDim2.new(0.9390519857406616, 0, 1, 0);
+				Label["9c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Label["9c"]["Name"] = [[LabelText]];
+				Label["9c"]["BackgroundTransparency"] = 1;
+				Label["9c"]["Position"] = UDim2.new(0.06094808131456375, 0, 0, 0);
+				Label["9c"]["TextWrapped"] = true
+				Label["9c"]["TextYAlignment"] = Enum.TextYAlignment.Top
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Label.UIPadding
+				Label["9d"] = Instance.new("UIPadding", Label["9a"]);
+				Label["9d"]["PaddingTop"] = UDim.new(0, 6);
+				Label["9d"]["PaddingRight"] = UDim.new(0, 6);
+				Label["9d"]["PaddingBottom"] = UDim.new(0, 6);
+				Label["9d"]["PaddingLeft"] = UDim.new(0, 6);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Label.Line
+				Label["9e"] = Instance.new("Frame", Label["9a"]);
+				Label["9e"]["BorderSizePixel"] = 0;
+				Label["9e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Label["9e"]["BackgroundTransparency"] = 0.949999988079071;
+				Label["9e"]["Size"] = UDim2.new(0, 480, 0, -2);
+				Label["9e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Label["9e"]["Position"] = UDim2.new(-0.04377667233347893, 0, 1.5718973875045776, 0);
+				Label["9e"]["Name"] = [[Line]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Label.LabelIcon
+				Label["9f"] = Instance.new("ImageLabel", Label["9a"]);
+				Label["9f"]["BorderSizePixel"] = 0;
+				Label["9f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Label["9f"]["ImageColor3"] = Color3.fromRGB(255, 235, 0);
+				Label["9f"]["Image"] = [[http://www.roblox.com/asset/?id=6035202002]];
+				Label["9f"]["Size"] = UDim2.new(0, 21, 0, 20);
+				Label["9f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Label["9f"]["Name"] = [[LabelIcon]];
+				Label["9f"]["BackgroundTransparency"] = 1;
+
+
+			end
+
+			-- Methods 
+			function Label:SetText(text)
+				options.message = text
+				Label:_update()
+			end
+
+			function Label:_update()
+				Label["9c"].Text = options.message
+				Label["9c"].Size = UDim2.new(Label["9c"].Size.X.Scale, Label["9c"].Size.X.Offset, 0, math.huge)
+				Label["9c"].Size = UDim2.new(Label["9c"].Size.X.Scale, Label["9c"].Size.X.Offset, 0, Label["9c"].TextBounds.Y)
+				Label["9a"].Size = UDim2.new(Label["9a"].Size.X.Scale, Label["9a"].Size.X.Offset, 0, Label["9c"].TextBounds.Y + 20)
+				-- Library:tween(Warning["94"], {Size = UDim2.new(Warning["94"].Size.X.Scale, Warning["94"].Size.X.Offset, 0, Warning["96"].TextBounds.Y)})
+			end
+
+			Label:_update()
+
+			return Label 
+		end
+
+
+		function Tab:Toggle(options)
+			options = Library:validate({
+				title = "Preview Toggle",
+				callback = function() end
+			}, options or {})
+
+			local Toggle = {
+				Hover = false,
+				MouseDown = false,
+				State = false
+			}
+
+			-- Render
+			do
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive
+				Toggle["b9"] = Instance.new("Frame", Tab["8a"]);
+				Toggle["b9"]["BorderSizePixel"] = 0;
+				Toggle["b9"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Toggle["b9"]["Size"] = UDim2.new(0, 455, 0, 37);
+				Toggle["b9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Toggle["b9"]["Position"] = UDim2.new(0.01886792480945587, 0, 0.028248587623238564, 0);
+				Toggle["b9"]["Name"] = [[ToggleInactive]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.UICorner
+				Toggle["ba"] = Instance.new("UICorner", Toggle["b9"]);
+				Toggle["ba"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.TextLabel
+				Toggle["bb"] = Instance.new("TextLabel", Toggle["b9"]);
+				Toggle["bb"]["TextWrapped"] = true;
+				Toggle["bb"]["BorderSizePixel"] = 0;
+				Toggle["bb"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Toggle["bb"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Toggle["bb"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Toggle["bb"]["TextSize"] = 17;
+				Toggle["bb"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Toggle["bb"]["Size"] = UDim2.new(0.9119638800621033, 0, 1, 0);
+				Toggle["bb"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Toggle["bb"]["Text"] = options.title;
+				Toggle["bb"]["BackgroundTransparency"] = 1;
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.UIPadding
+				Toggle["bc"] = Instance.new("UIPadding", Toggle["b9"]);
+				Toggle["bc"]["PaddingTop"] = UDim.new(0, 6);
+				Toggle["bc"]["PaddingRight"] = UDim.new(0, 6);
+				Toggle["bc"]["PaddingBottom"] = UDim.new(0, 6);
+				Toggle["bc"]["PaddingLeft"] = UDim.new(0, 6);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.Line
+				Toggle["bd"] = Instance.new("Frame", Toggle["b9"]);
+				Toggle["bd"]["BorderSizePixel"] = 0;
+				Toggle["bd"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Toggle["bd"]["BackgroundTransparency"] = 0.949999988079071;
+				Toggle["bd"]["Size"] = UDim2.new(0, 480, 0, -2);
+				Toggle["bd"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Toggle["bd"]["Position"] = UDim2.new(-0.04377667233347893, 0, 1.7718979120254517, 0);
+				Toggle["bd"]["Name"] = [[Line]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.CheckMarkHolder
+				Toggle["be"] = Instance.new("Frame", Toggle["b9"]);
+				Toggle["be"]["BorderSizePixel"] = 0;
+				Toggle["be"]["BackgroundColor3"] = Color3.fromRGB(64, 64, 64);
+				Toggle["be"]["AnchorPoint"] = Vector2.new(1, 0);
+				Toggle["be"]["Size"] = UDim2.new(0, 23, 0, 23);
+				Toggle["be"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Toggle["be"]["Position"] = UDim2.new(0.9954853057861328, 0, 0, 0);
+				Toggle["be"]["Name"] = [[CheckMarkHolder]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.CheckMarkHolder.UIStroke
+				Toggle["bf"] = Instance.new("UIStroke", Toggle["be"]);
+				Toggle["bf"]["Color"] = Color3.fromRGB(43, 43, 43);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.CheckMarkHolder.UICorner
+				Toggle["c0"] = Instance.new("UICorner", Toggle["be"]);
+				Toggle["c0"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.ToggleInactive.CheckMarkHolder.Checkmark
+				Toggle["c1"] = Instance.new("ImageLabel", Toggle["be"]);
+				Toggle["c1"]["BorderSizePixel"] = 0;
+				Toggle["c1"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Toggle["c1"]["Visible"] = false;
+				Toggle["c1"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+				Toggle["c1"]["Image"] = [[http://www.roblox.com/asset/?id=6031094667]];
+				Toggle["c1"]["Size"] = UDim2.new(1, -2, 1, -2);
+				Toggle["c1"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Toggle["c1"]["Name"] = [[Checkmark]];
+				Toggle["c1"]["BackgroundTransparency"] = 1;
+				Toggle["c1"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+			end
+
+			-- Methods 
+
+			do
+
+				function Toggle:Toggle(b)
+					if b == nil then
+						Toggle.State = not Toggle.State
+					else 
+						Toggle.State = b
+					end
+
+
+					if Toggle.State then 
+						Library:tween(Toggle["be"], {BackgroundColor3 = Color3.fromRGB(81, 76, 0)})
+						Library:tween(Toggle["c1"], {ImageTransparency = 0})
+						Library:tween(Toggle["c1"], {Visible = true})
+					else 
+						Library:tween(Toggle["be"], {BackgroundColor3 = Color3.fromRGB(64, 64, 64)})
+						Library:tween(Toggle["c1"], {ImageTransparency = 1})
+					end
+					options.callback(Toggle.State)
+				end
+			end
+
+
+			-- Logic
+			do
+				Toggle["b9"].MouseEnter:Connect(function()
+					Toggle.Hover = true 
+					Library:tween(Toggle["bf"], {Color = Color3.fromRGB(255, 247, 0)})
+				end)
+
+
+				Toggle["b9"].MouseLeave:Connect(function()
+					Toggle.Hover = false 
+
+
+					if not Toggle.MouseDown then 
+						Library:tween(Toggle["bf"], {Color = Color3.fromRGB(13, 13, 13)})
+					end
+				end)
+
+				uis.InputBegan:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 and Toggle.Hover then 
+						Toggle.MouseDown = true
+						Library:tween(Toggle["b9"], {BackgroundColor3 = Color3.fromRGB(43, 43, 43)})
+						Library:tween(Toggle["bf"], {Color = Color3.fromRGB(255, 255, 0)})
+
+						Toggle:Toggle()
+
+					end
+				end)
+
+				uis.InputEnded:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+						Toggle.MouseDown = false
+
+						if Toggle.Hover then
+							Library:tween(Toggle["b9"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+							Library:tween(Toggle["bf"], {Color = Color3.fromRGB(255, 238, 0)})
+
+						else 
+							Library:tween(Toggle["b9"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+							Library:tween(Toggle["bf"], {Color = Color3.fromRGB(43, 43, 43)})
+						end
+
+					end
+				end)
+
+
+			end
+
+
+			return Toggle
+		end
+
+		function Tab:Slider(options)
+			options = Library:validate({
+				title = "Slider Preview",
+				min = 0,
+				max = 100,
+				default = 50,
+				callback = function(v) print(v) end
+			}, options or {})
+
+			local Slider = {
+				MouseDown = false,
+				Hover = false,
+				Connection = nil,
+				Options = options
+			}
+
+
+
+			-- Render 
+			do
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider
+				Slider["a0"] = Instance.new("Frame", Tab["8a"]);
+				Slider["a0"]["BorderSizePixel"] = 0;
+				Slider["a0"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Slider["a0"]["Size"] = UDim2.new(0, 455, 0, 50);
+				Slider["a0"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Slider["a0"]["Position"] = UDim2.new(0.01886792480945587, 0, 0.028248587623238564, 0);
+				Slider["a0"]["Name"] = [[Slider]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.UICorner
+				Slider["a1"] = Instance.new("UICorner", Slider["a0"]);
+				Slider["a1"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.LabelText
+				Slider["a2"] = Instance.new("TextLabel", Slider["a0"]);
+				Slider["a2"]["TextWrapped"] = true;
+				Slider["a2"]["BorderSizePixel"] = 0;
+				Slider["a2"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Slider["a2"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Slider["a2"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Slider["a2"]["TextSize"] = 17;
+				Slider["a2"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Slider["a2"]["Size"] = UDim2.new(1, -30, 1, -20);
+				Slider["a2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Slider["a2"]["Text"] = options.title;
+				Slider["a2"]["Name"] = [[LabelText]];
+				Slider["a2"]["BackgroundTransparency"] = 1;
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.UIPadding
+				Slider["a3"] = Instance.new("UIPadding", Slider["a0"]);
+				Slider["a3"]["PaddingTop"] = UDim.new(0, 6);
+				Slider["a3"]["PaddingRight"] = UDim.new(0, 6);
+				Slider["a3"]["PaddingBottom"] = UDim.new(0, 6);
+				Slider["a3"]["PaddingLeft"] = UDim.new(0, 6);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.Value
+				Slider["a4"] = Instance.new("TextLabel", Slider["a0"]);
+				Slider["a4"]["TextWrapped"] = true;
+				Slider["a4"]["BorderSizePixel"] = 0;
+				Slider["a4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Slider["a4"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Slider["a4"]["TextSize"] = 15;
+				Slider["a4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Slider["a4"]["AnchorPoint"] = Vector2.new(1, 0);
+				Slider["a4"]["Size"] = UDim2.new(0.15575620532035828, -30, 1.1578947305679321, -20);
+				Slider["a4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Slider["a4"]["Text"] = tostring(options.default);
+				Slider["a4"]["Name"] = [[Value]];
+				Slider["a4"]["BackgroundTransparency"] = 1;
+				Slider["a4"]["Position"] = UDim2.new(1.0316027402877808, -14, 0.28947368264198303, -14);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.SliderFrame
+				Slider["a5"] = Instance.new("Frame", Slider["a0"]);
+				Slider["a5"]["BorderSizePixel"] = 0;
+				Slider["a5"]["BackgroundColor3"] = Color3.fromRGB(17, 17, 17);
+				Slider["a5"]["AnchorPoint"] = Vector2.new(0, 1);
+				Slider["a5"]["Size"] = UDim2.new(0, 443, 0, 6);
+				Slider["a5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Slider["a5"]["Position"] = UDim2.new(0, 0, 0.8684210777282715, 0);
+				Slider["a5"]["Name"] = [[SliderFrame]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.SliderFrame.SliderDraggable
+				Slider["a6"] = Instance.new("Frame", Slider["a5"]);
+				Slider["a6"]["BorderSizePixel"] = 0;
+				Slider["a6"]["BackgroundColor3"] = Color3.fromRGB(255, 239, 0);
+				Slider["a6"]["AnchorPoint"] = Vector2.new(0, 1);
+				Slider["a6"]["Size"] = UDim2.new(0, 199, 0, 6);
+				Slider["a6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Slider["a6"]["Position"] = UDim2.new(0, 0, 1, 0);
+				Slider["a6"]["Name"] = [[SliderDraggable]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Slider.SliderFrame.UIStroke
+				Slider["a7"] = Instance.new("UIStroke", Slider["a5"]);
+				Slider["a7"]["Color"] = Color3.fromRGB(117, 117, 117);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown
+				Slider["a8"] = Instance.new("Frame", Slider["8a"]);
+				Slider["a8"]["BorderSizePixel"] = 0;
+				Slider["a8"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Slider["a8"]["Size"] = UDim2.new(0.9490804672241211, 0, 0.00748205604031682, 32);
+				Slider["a8"]["ClipsDescendants"] = true;
+				Slider["a8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Slider["a8"]["Position"] = UDim2.new(0.025459768250584602, 0, 0.5306122303009033, 0);
+				Slider["a8"]["Name"] = [[Dropdown]];
+			end
+
+
+			-- Methods
+
+			function Slider:SetValue(v)
+				if v == nil then
+					local percentage = math.clamp((mouse.X - Slider["a5"].AbsolutePosition.X) / Slider["a5"].AbsoluteSize.X, 0, 1)
+					local value = math.floor(((options.max - options.min) * percentage) + options.min)
+
+					Slider["a4"].Text = tostring(value)
+					Slider["a6"].Size = UDim2.fromScale(percentage, 1) 
+				else
+					Slider["a4"].Text = tostring(v)
+					Slider["a6"].Size = UDim2.fromScale(((v - options.min) / (options.max - options.min)), 1)
+				end
+				options.callback(Slider:GetValue())
+			end
+
+
+
+
+			function Slider:GetValue()
+				return tonumber(Slider["a4"].Text)
+			end
+
+
+			-- Logic 
+
+			do
+
+				Slider["a0"].MouseEnter:Connect(function()
+					Slider.Hover = true 
+
+					Library:tween(Slider["a7"], {Color = Color3.fromRGB(35, 35, 35)})
+					Library:tween(Slider["a6"], {BackgroundColor3 = Color3.fromRGB(247, 255, 161)})
+				end)
+
+
+				Slider["a0"].MouseLeave:Connect(function()
+					Slider.Hover = false 
+
+
+					if not Slider.MouseDown then 
+						Library:tween(Slider["a7"], {Color = Color3.fromRGB(27, 27, 27)})
+						Library:tween(Slider["a6"], {BackgroundColor3 = Color3.fromRGB(144, 134, 0)})
+					end
+				end)
+
+				uis.InputBegan:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 and Slider.Hover then 
+						Slider.MouseDown = true
+						Library:tween(Slider["a0"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+						Library:tween(Slider["a7"], {Color = Color3.fromRGB(255, 238, 0)})
+
+						if not Slider.Connection then 
+							Slider.Connection = runService.RenderStepped:Connect(function()
+								Slider:SetValue()
+							end)
+						end
+					end
+				end)
+
+				uis.InputEnded:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+						Slider.MouseDown = false
+
+						if Slider.Hover then
+							Library:tween(Slider["a0"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+							Library:tween(Slider["a7"], {Color = Color3.fromRGB(255, 255, 73)})
+						else 
+							-- reset
+							Library:tween(Slider["a0"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+							Library:tween(Slider["a7"], {Color = Color3.fromRGB(13, 13, 13)})
+						end
+
+						if Slider.Connection then Slider.Connection:Disconnect() end
+						Slider.Connection = nil
+
+					end
+				end)
+			end
+			return Slider 
+		end
+
+
+		function Tab:Dropdown(options)
+			options = Library:validate({
+				title = "Preview Dropdown",
+				callback = function() end,
+				items = {}
+			}, options or {})
+
+
+			local Dropdown = {
+				Items = {
+					["id"] = {
+						"value"
+					}
+				},
+				Open = false,
+				MouseDown = false,
+				Hover = false,
+				HoveringItem = false
+			}
+
+
+			-- Render
+			do
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown
+				Dropdown["a8"] = Instance.new("Frame", Tab["8a"]);
+				Dropdown["a8"]["BorderSizePixel"] = 0;
+				Dropdown["a8"]["BackgroundColor3"] = Color3.fromRGB(13, 13, 13);
+				Dropdown["a8"]["Size"] = UDim2.new(0.9490804672241211, 0, 0.00748205604031682, 32);
+				Dropdown["a8"]["ClipsDescendants"] = true;
+				Dropdown["a8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Dropdown["a8"]["Position"] = UDim2.new(0.025459768250584602, 0, 0.5306122303009033, 0);
+				Dropdown["a8"]["Name"] = [[Dropdown]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.UICorner
+				Dropdown["a9"] = Instance.new("UICorner", Dropdown["a8"]);
+				Dropdown["a9"]["CornerRadius"] = UDim.new(0, 2);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.TextLabel
+				Dropdown["aa"] = Instance.new("TextLabel", Dropdown["a8"]);
+				Dropdown["aa"]["TextWrapped"] = true;
+				Dropdown["aa"]["BorderSizePixel"] = 0;
+				Dropdown["aa"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Dropdown["aa"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Dropdown["aa"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Dropdown["aa"]["TextSize"] = 17;
+				Dropdown["aa"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Dropdown["aa"]["Size"] = UDim2.new(0.9768596887588501, -20, 0, 20);
+				Dropdown["aa"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Dropdown["aa"]["Text"] = options.title;
+				Dropdown["aa"]["BackgroundTransparency"] = 1;
+				Dropdown["aa"]["Position"] = UDim2.new(0.006672042887657881, 0, 0.08300922065973282, 0);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.UIPadding
+				Dropdown["ab"] = Instance.new("UIPadding", Dropdown["a8"]);
+				Dropdown["ab"]["PaddingTop"] = UDim.new(0, 6);
+				Dropdown["ab"]["PaddingRight"] = UDim.new(0, 6);
+				Dropdown["ab"]["PaddingBottom"] = UDim.new(0, 6);
+				Dropdown["ab"]["PaddingLeft"] = UDim.new(0, 6);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.Line
+				Dropdown["ac"] = Instance.new("Frame", Dropdown["a8"]);
+				Dropdown["ac"]["BorderSizePixel"] = 0;
+				Dropdown["ac"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Dropdown["ac"]["BackgroundTransparency"] = 0.949999988079071;
+				Dropdown["ac"]["Size"] = UDim2.new(0, 480, 0, -2);
+				Dropdown["ac"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Dropdown["ac"]["Position"] = UDim2.new(-0.04377667233347893, 0, 1.5718973875045776, 0);
+				Dropdown["ac"]["Name"] = [[Line]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.ImageLabel
+				Dropdown["ad"] = Instance.new("ImageLabel", Dropdown["a8"]);
+				Dropdown["ad"]["BorderSizePixel"] = 0;
+				Dropdown["ad"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Dropdown["ad"]["Image"] = [[http://www.roblox.com/asset/?id=6031104644]];
+				Dropdown["ad"]["Size"] = UDim2.new(0, 27, 0, 25);
+				Dropdown["ad"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Dropdown["ad"]["BackgroundTransparency"] = 1;
+				Dropdown["ad"]["Position"] = UDim2.new(0.9390519261360168, 0, 0.0192125104367733, 0);
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.OptionHolder
+				Dropdown["ae"] = Instance.new("Frame", Dropdown["a8"]);
+				Dropdown["ae"]["BorderSizePixel"] = 0;
+				Dropdown["ae"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Dropdown["ae"]["BackgroundTransparency"] = 1;
+				Dropdown["ae"]["Size"] = UDim2.new(1, 0, 0.9245283007621765, -20);
+				Dropdown["ae"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Dropdown["ae"]["Position"] = UDim2.new(0, 0, 0, 34);
+				Dropdown["ae"]["Visible"] = false;
+				Dropdown["ae"]["Name"] = [[OptionHolder]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.OptionHolder.UIListLayout
+				Dropdown["af"] = Instance.new("UIListLayout", Dropdown["ae"]);
+				Dropdown["af"]["Padding"] = UDim.new(0, 6);
+				Dropdown["af"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+
+			end
+
+			-- Methods 
+
+			function Dropdown:Add(id, value)
+				local Item = {
+					Hover = false,
+					MouseDown = false
+				}
+				if Dropdown.Items[id] ~= nil then
+					return
+				end
+				Dropdown.Items[id] = {
+					instance = {},
+					value = value
+				}
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.OptionHolder.Inactive Option
+				Dropdown.Items[id].instance["b0"] = Instance.new("TextLabel", Dropdown["ae"]);
+				Dropdown.Items[id].instance["b0"]["BorderSizePixel"] = 0;
+				Dropdown.Items[id].instance["b0"]["BackgroundColor3"] = Color3.fromRGB(49, 49, 49);
+				Dropdown.Items[id].instance["b0"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Dropdown.Items[id].instance["b0"]["TextSize"] = 14;
+				Dropdown.Items[id].instance["b0"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+				Dropdown.Items[id].instance["b0"]["Size"] = UDim2.new(1, 0, 0, 20);
+				Dropdown.Items[id].instance["b0"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Dropdown.Items[id].instance["b0"]["Text"] = id;
+				Dropdown.Items[id].instance["b0"]["Name"] = [[Inactive Option]];
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.OptionHolder.Inactive Option.UIStroke
+				Dropdown.Items[id].instance["b1"] = Instance.new("UIStroke", Dropdown["b0"]);
+				Dropdown.Items[id].instance["b1"]["Color"] = Color3.fromRGB(255, 238, 0);
+				Dropdown.Items[id].instance["b1"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+				-- StarterGui.AdminPanel.MainTab.ContentContainer.MainStuff.Dropdown.OptionHolder.Inactive Option.UICorner
+				Dropdown.Items[id].instance["b2"] = Instance.new("UICorner", Dropdown["b0"]);
+				Dropdown.Items[id].instance["b2"]["CornerRadius"] = UDim.new(0, 6);
+
+				Dropdown.Items[id].instance["b0"].MouseEnter:Connect(function()
+					Item.Hover = true 
+					Dropdown.HoveringItem = true
+					print("no hover")
+				end)
+
+
+				Dropdown.Items[id].instance["b0"].MouseLeave:Connect(function()
+					Item.Hover = false 
+					Dropdown.HoveringItem = false
+
+					if not Item.MouseDown then 
+						print("no hover")
+					end
+				end)
+
+				uis.InputBegan:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if Dropdown.Items[id].instance == nil then return end
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 and Item.Hover then 
+						Item.MouseDown = true
+						Library:tween(Dropdown.Items[id].instance["b0"], {BackgroundColor3 = Color3.fromRGB(255, 247, 0)})
+						options.callback(value)
+						Dropdown:Toggle()
+					end
+				end)
+
+				uis.InputEnded:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if Dropdown.Items[id] == nil then return end
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+						Item.MouseDown = false
+
+						if Item.Hover then
+							Library:tween(Dropdown.Items[id].instance["b0"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+						else 
+							-- reset
+							Library:tween(Dropdown.Items[id].instance["b0"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+						end
+
+					end
+				end)
+			end
+
+			function Dropdown:Remove(id)
+				if Dropdown.Items[id] ~= nil then 
+
+					if #Dropdown.Items[id].Instance ~= nil then
+						for i, v in pairs(Dropdown.Items[id].instance) do
+							v:Destroy()
+						end
+					end
+					Dropdown.Items[id] = nil
+				end
+
+			end
+
+			function Dropdown:Clear()
+				for i, v in pairs(Dropdown.Items) do 
+					Dropdown:Remove(i)
+				end
+
+			end
+
+
+			function Dropdown:Toggle()
+				if Dropdown.Open then 
+
+					Library:tween(Dropdown["a8"], {Size = UDim2.new(0.95, 0,0, 39)}, function()
+						Dropdown["ae"]["Visible"] = false
+					end)
+
+				else 
+					local count = 0
+					for i, v in pairs(Dropdown.Items) do 
+						if v ~= nil then 
+							count += 1
+						end
+					end
+
+					Dropdown["ae"]["Visible"] = true
+					Library:tween(Dropdown["a8"], {Size = UDim2.new(0.95, 0, 0, 24 + (count * 24) + 1)})
+				end
+				Dropdown.Open = not Dropdown.Open
+			end
+			-- Logic
+			do
+				Dropdown["a8"].MouseEnter:Connect(function()
+					Dropdown.Hover = true 
+					print("no hover")
+				end)
+
+
+				Dropdown["a8"].MouseLeave:Connect(function()
+					Dropdown.Hover = false 
+
+
+					if not Dropdown.MouseDown then 
+						print("no hover")
+					end
+				end)
+
+				uis.InputBegan:Connect(function(input, gpe)
+					if gpe then return end 
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 and Dropdown.Hover then 
+						Dropdown.MouseDown = true
+						Library:tween(Dropdown["a8"], {BackgroundColor3 = Color3.fromRGB(26, 26, 26)})
+
+
+						if not Dropdown.HoveringItem then 
+							Dropdown:Toggle()
+						end
+					end
+				end)
+
+				uis.InputEnded:Connect(function(input, gpe)
+					if gpe then return end 
+
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+						Dropdown.MouseDown = false
+
+						if Dropdown.Hover then
+							Library:tween(Dropdown["a8"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+						else 
+							-- reset
+							Library:tween(Dropdown["a8"], {BackgroundColor3 = Color3.fromRGB(13, 13, 13)})
+						end
+
+					end
+				end)
+
+
+			end
+
+			return Dropdown 
+		end
+
+
+		local Drag = {}
+
+
+
+
+		local mainFrame = GUI["1"]
+		local navigationFrame = GUI["3d"]
+		local mainTabFrame = GUI["54"]
+
+	
+		local combinedFrame = Instance.new("Frame")
+		combinedFrame.Size = UDim2.new(1, 0, 1, 0)
+		combinedFrame.BackgroundTransparency = 1
+		combinedFrame.Parent = mainFrame
+
+		
+		navigationFrame.Parent = combinedFrame
+		mainTabFrame.Parent = combinedFrame
+
+		local dragging
+		local dragStart
+		local startPos
+
+		combinedFrame.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				dragging = true
+				dragStart = input.Position
+				startPos = combinedFrame.Position
+			end
+		end)
+
+		combinedFrame.InputChanged:Connect(function(input)
+			if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+				local delta = input.Position - dragStart
+				combinedFrame.Position = UDim2.new(
+					startPos.X.Scale,
+					startPos.X.Offset + delta.X,
+					startPos.Y.Scale,
+					startPos.Y.Offset + delta.Y
+				)
+			end
+		end)
+
+		combinedFrame.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				dragging = false
+			end
+		end)
+
+
+
+
+		local minimizeButton = GUI["50"] 
+
+		local isMinimized = false
+		local originalSize = mainTabFrame.Size
+
+		minimizeButton.MouseButton1Click:Connect(function()
+			isMinimized = not isMinimized
+
+			if isMinimized then
+				mainTabFrame.Visible = false
+			else
+				mainTabFrame.Size = originalSize
+				mainTabFrame.Visible = true
+			end
+		end)
+
+
+		local closeButton = GUI["4f"] 
+		local userInputService = game:GetService("UserInputService")
+
+		local mainTabFrame = GUI["54"]
+		local navigationFrame = GUI["3d"] 
+
+
+		local function closeUI()
+			mainTabFrame.Visible = false
+			navigationFrame.Visible = false
+		end
+
+	
+		local function reopenUI()
+			mainTabFrame.Visible = true
+			navigationFrame.Visible = true
+		end
+
+		closeButton.MouseButton1Click:Connect(function()
+			closeUI()
+		end)
+
+		local function onKeyPress(input)
+			if input.KeyCode == Enum.KeyCode.M then
+				if not mainTabFrame.Visible or not navigationFrame.Visible then
+					reopenUI()
+				end
+			end
+		end
+
+		userInputService.InputBegan:Connect(onKeyPress)
+
+		local TitleRainbow = GUI["4a"] 
+		local isHovering = false
+		local rainbowLoop
+
+		local function rainbowAnimation()
+			local hue = 0
+			while isHovering do
+				TitleRainbow.TextColor3 = Color3.fromHSV(hue, 1, 1)
+				hue = (hue + 0.005) % 1
+				wait(0.05)
+			end
+		end
+
+		local function startRainbow()
+			isHovering = true
+			rainbowLoop = coroutine.wrap(rainbowAnimation)
+			rainbowLoop()
+		end
+
+		local function stopRainbow()
+			isHovering = false
+			if TitleRainbow.TextColor3 ~= Color3.new(1, 1, 1) then
+				TitleRainbow.TextColor3 = Color3.new(1, 1, 1)
+			end
+		end
+
+		TitleRainbow.MouseEnter:Connect(startRainbow)
+		TitleRainbow.MouseLeave:Connect(stopRainbow)
+
+
+
+
+		return Tab
+	end
+	return GUI
+end
+
+local main = Library:Init{
+	name = "Kaos Hub"
+}
