@@ -2037,6 +2037,15 @@ local toggle = tab:Toggle({
 })
 
 
+local Dropdowns = tab:Dropdown({
+    title = "test",
+    items = {"Normal"},
+    callback = function()
+        print("ok")
+    end
+})
+
+
 local dropdownInstance = tab:Dropdown({
     title = "Chapter",
     items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"},
