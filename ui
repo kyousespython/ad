@@ -1955,59 +1955,6 @@ function Library:Init(options)
 	return GUI
 end
 
-local main = Library:Init{
-	name = "Kaos Hub"
-}
-
-local tab = main:CreateTab({
-    name = "Main"
-})
-local tab2 = main:CreateTab({
-	name = "WIP"
-})
-
-
-local toggleEnabled = false
-local selectedChapter = nil
-local selectedDifficulty = nil
-
-local toggle = tab:Toggle({
-    title = "Auto Join Selected Map",
-    callback = function(state)
-        toggleEnabled = state
-        if toggleEnabled then
-            startAutoJoin()
-        end
-        print("Auto Join toggled to", state)
-    end
-})
-
-
-local dropdownInstance = tab:Dropdown({
-    title = "Chapter",
-    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"},
-    callback = function(selected)
-        selectedChapter = selected
-        print("Selected chapter:", selectedChapter)
-        if toggleEnabled then
-            startAutoJoin()
-        end
-    end
-})
-
-
-local Dropdown = tab:Dropdown({
-    title = "Difficulty",
-    items = {"Normal", "Hard"},
-    callback = function(selected)
-        selectedDifficulty = selected
-        print("Selected difficulty:", selectedDifficulty)
-        if toggleEnabled then
-            startAutoJoin()
-        end
-    end
-})
-
 local targetPosition = Vector3.new(-137.4, 11.2, -268.5) 
 
 local function teleportPlayerRandom()
@@ -2062,3 +2009,55 @@ local function startAutoJoin()
     end
 end
 
+local main = Library:Init{
+	name = "Kaos Hub"
+}
+
+local tab = main:CreateTab({
+    name = "Main"
+})
+local tab2 = main:CreateTab({
+	name = "WIP"
+})
+
+
+local toggleEnabled = false
+local selectedChapter = nil
+local selectedDifficulty = nil
+
+local toggle = tab:Toggle({
+    title = "Auto Join Selected Map",
+    callback = function(state)
+        toggleEnabled = state
+        if toggleEnabled then
+            startAutoJoin()
+        end
+        print("Auto Join toggled to", state)
+    end
+})
+
+
+local dropdownInstance = tab:Dropdown({
+    title = "Chapter",
+    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"},
+    callback = function(selected)
+        selectedChapter = selected
+        print("Selected chapter:", selectedChapter)
+        if toggleEnabled then
+            startAutoJoin()
+        end
+    end
+})
+
+
+local Dropdown = tab:Dropdown({
+    title = "Difficulty",
+    items = {"Normal", "Hard"},
+    callback = function(selected)
+        selectedDifficulty = selected
+        print("Selected difficulty:", selectedDifficulty)
+        if toggleEnabled then
+            startAutoJoin()
+        end
+    end
+})
