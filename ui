@@ -2034,7 +2034,7 @@ local Dropdowns = tab:Dropdown({
 })
 
 
-local dropdownInstance = tab:Dropdown({
+--[[ local dropdownInstance = tab:Dropdown({
     title = "Chapter",
     items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"},
     callback = function(selected)
@@ -2045,9 +2045,9 @@ local dropdownInstance = tab:Dropdown({
         end
     end
 })
+--]]
 
-
-local Dropdown = tab:Dropdown({
+--[[local Dropdown = tab:Dropdown({
     title = "Difficulty",
     items = {"Normal", "Hard"},
     callback = function(selected)
@@ -2057,7 +2057,7 @@ local Dropdown = tab:Dropdown({
             startAutoJoin()
         end
     end
-})
+})--]]
 
 
 local toggle = tab:Toggle({
