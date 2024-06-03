@@ -1984,10 +1984,10 @@ local toggle = tab:Toggle({
 })
 
 
-local dropdown2 = tab:Dropdown({
+local Dropdown = tab:Dropdown({
     title = "Chapter",
-    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"}, 
-    callback = function(selected)
+    callback = function(selected),
+    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"}
         selectedChapter = selected
         print("Selected chapter:", selectedChapter)
         if toggleEnabled then
@@ -1996,10 +1996,10 @@ local dropdown2 = tab:Dropdown({
     end
 })
 
-local dropdown3 = tab:Dropdown({
+local Dropdown = tab:Dropdown({
     title = "Difficulty",
-    items = {"Normal", "Hard"}, 
-    callback = function(selected)
+    callback = function(selected),
+        items = {"Normal", "Hard"}
         selectedDifficulty = selected
         print("Selected difficulty:", selectedDifficulty)
         if toggleEnabled then
