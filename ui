@@ -2025,18 +2025,6 @@ local toggleEnabled = false
 local selectedChapter = nil
 local selectedDifficulty = nil
 
-local toggle = tab:Toggle({
-    title = "Auto Join Selected Map",
-    callback = function(state)
-        toggleEnabled = state
-        if toggleEnabled then
-            startAutoJoin()
-        end
-        print("Auto Join toggled to", state)
-    end
-})
-
-
 local Dropdowns = tab:Dropdown({
     title = "test",
     items = {"Normal"},
@@ -2070,3 +2058,17 @@ local Dropdown = tab:Dropdown({
         end
     end
 })
+
+
+local toggle = tab:Toggle({
+    title = "Auto Join Selected Map",
+    callback = function(state)
+        toggleEnabled = state
+        if toggleEnabled then
+            startAutoJoin()
+        end
+        print("Auto Join toggled to", state)
+    end
+})
+
+
