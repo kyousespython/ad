@@ -1968,7 +1968,6 @@ local tab2 = main:CreateTab({
 
 
 local toggleEnabled = false
-local selectedMap = nil
 local selectedChapter = nil
 local selectedDifficulty = nil
 
@@ -1984,10 +1983,10 @@ local toggle = tab:Toggle({
 })
 
 
-local Dropdown = tab:Dropdown({
+local dropdownInstance = tab:Dropdown({
     title = "Chapter",
-    callback = function(selected),
-    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"}
+    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"},
+    callback = function(selected)
         selectedChapter = selected
         print("Selected chapter:", selectedChapter)
         if toggleEnabled then
@@ -1996,10 +1995,11 @@ local Dropdown = tab:Dropdown({
     end
 })
 
+
 local Dropdown = tab:Dropdown({
     title = "Difficulty",
-    callback = function(selected),
-        items = {"Normal", "Hard"}
+    items = {"Normal", "Hard"},
+    callback = function(selected)
         selectedDifficulty = selected
         print("Selected difficulty:", selectedDifficulty)
         if toggleEnabled then
@@ -2056,7 +2056,7 @@ local function startAutoJoin()
             fireclickdetector(startBtn.ClickDetector)
         end
 
-        print("Auto join process started with Map:", selectedMap, "Chapter:", selectedChapter, "Difficulty:", selectedDifficulty)
+        print("Auto join process started with Chapter:", selectedChapter, "Difficulty:", selectedDifficulty)
     else
         print("Please select all options (Map, Chapter, Difficulty) before starting auto join.")
     end
