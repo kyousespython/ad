@@ -1967,7 +1967,7 @@ local tab2 = main:CreateTab({
 })
 
 
-local toggle = Tab:Toggle({
+local toggle = tab:Toggle({
     title = "Auto Join Selected Map",
     callback = function()
         print("works")
