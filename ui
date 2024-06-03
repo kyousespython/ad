@@ -1967,40 +1967,98 @@ local tab2 = main:CreateTab({
 })
 
 
+local toggleEnabled = false
+local selectedMap = nil
+local selectedChapter = nil
+local selectedDifficulty = nil
+
 local toggle = tab:Toggle({
     title = "Auto Join Selected Map",
-    callback = function()
-        print("works")
+    callback = function(state)
+        toggleEnabled = state
+        if toggleEnabled then
+            startAutoJoin()
+        end
+        print("Auto Join toggled to", state)
     end
 })
 
--- -137.4, 11.2, -268.5
 
--- Auto Farm
+local dropdown2 = tab:Dropdown({
+    title = "Chapter",
+    items = {"FooshaVillage_Chapter1", "FooshaVillage_Chapter2", "FooshaVillage_Chapter3", "FooshaVillage_Chapter4", "FooshaVillage_Chapter5", "FooshaVillage_Chapter6"}, 
+    callback = function(selected)
+        selectedChapter = selected
+        print("Selected chapter:", selectedChapter)
+        if toggleEnabled then
+            startAutoJoin()
+        end
+    end
+})
 
---[[ local Chapter = nil
-local FriendsOnly = nil
-local Difficulty = nil 
+local dropdown3 = tab:Dropdown({
+    title = "Difficulty",
+    items = {"Normal", "Hard"}, 
+    callback = function(selected)
+        selectedDifficulty = selected
+        print("Selected difficulty:", selectedDifficulty)
+        if toggleEnabled then
+            startAutoJoin()
+        end
+    end
+})
 
-local targetPosition = Vector3.new(-137.4, 11.2, -268.5) -- Change these values to the desired coordinates
+local targetPosition = Vector3.new(-137.4, 11.2, -268.5) 
 
-local function teleportPlayer()
+local function teleportPlayerRandom()
     local player = game.Players.LocalPlayer
-    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+    local folder = game:GetService("Workspace")["SubStuff_DONT_DELETE"].StoryPods.Pod.Inside
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") and folder then
+        local teleporters = folder:GetChildren()
+        if #teleporters > 0 then
+            local randomIndex = math.random(1, #teleporters)
+            local teleporter = teleporters[randomIndex]
+            local parts = teleporter:GetChildren()
+            if #parts > 0 then
+                local randomPartIndex = math.random(1, #parts)
+                local targetPosition = parts[randomPartIndex].Position
+                player.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+            else
+                warn("Teleporter found, but no parts inside.")
+            end
+        else
+            warn("No teleporters found inside the specified folder.")
+        end
     end
 end
 
-teleportPlayer()
+local function startAutoJoin()
+    if selectedChapter and selectedDifficulty then
+        wait(1)
+        teleportPlayerRandom()
+        
+        wait(1)
+        
+        local args = {
+            [1] = "WNGEdCtwxTcWeltaH",
+            [2] = {
+                ["Chapter"] = selectedChapter,
+                ["FriendsOnly"] = false,
+                ["Difficulty"] = selectedDifficulty
+            }
+        }
 
-local args = {
-    [1] = "WNGEdCtwxTcWeltaH",
-    [2] = {
-        ["Chapter"] = "FooshaVillage_Chapter1",
-        ["FriendsOnly"] = false,
-        ["Difficulty"] = "Normal"
-    }
-}
+        game:GetService("ReplicatedStorage").Actions.Action:FireServer(unpack(args))
 
-game:GetService("ReplicatedStorage").Actions.Action:FireServer(unpack(args))
---]]
+        wait(1)
+        local startBtn = game:GetService("Players").LocalPlayer.PlayerGui.UI.UIClasses.UIBaseClass.MatchDisplay.MatchDisplayFrame.OptionsHolder.StartButtonHolder.StartButton
+        if startBtn then
+            fireclickdetector(startBtn.ClickDetector)
+        end
+
+        print("Auto join process started with Map:", selectedMap, "Chapter:", selectedChapter, "Difficulty:", selectedDifficulty)
+    else
+        print("Please select all options (Map, Chapter, Difficulty) before starting auto join.")
+    end
+end
+
